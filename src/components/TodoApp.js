@@ -1,4 +1,6 @@
 import React from 'react';
+import { TodoContext } from './todo-context';
+
 import './TodoApp.css';
 
 import { TodoActions } from './TodoActions'
@@ -8,6 +10,32 @@ import { TodoAdd } from './TodoAdd'
 export default class TodoApp extends React.Component {
   constructor(props) {
     super(props);
+
+    this.handleFilter = (value) => {
+      this.setState({
+        filter: value
+      })
+    }
+
+    this.addTodo = (e) => {
+      let target = e.target;
+      let value = target.value;
+
+      if(e.keyCode === 13) {
+
+        let todo = {
+          id: new Date().getTime(),
+          title: value,
+          completed: false
+        }
+  
+        this.setState({
+          todos: [...this.state.todos, todo]
+        }, () => {
+          target.value = ''
+        })
+      }
+    }
     
     this.state = {
       todos: [
@@ -16,16 +44,26 @@ export default class TodoApp extends React.Component {
         { id: 3, title: 'Todo 3', completed: false }
       ],
       filter: 'all', // active, completed,
-      deleted: []
+      deleted: [],
+      handleFilter: this.handleFilter,
+      addTodo: this.addTodo
     }    
   }
-  
-  
+
   render() {
-    return (<section className="todoapp">
-      <TodoAdd />
-      <TodoList filter={this.state.filter} todos={this.state.todos} />
-      <TodoActions filter={this.state.filter} />
-    </section>);
+    return  <React.Fragment>
+      <section className="todoapp">
+        <TodoContext.Provider value={this.state}>
+          <TodoAdd />
+          <TodoList />
+          <TodoActions />
+        </TodoContext.Provider>
+      </section>
+      <section className="todoapp">
+        <TodoAdd />
+        <TodoList />
+        <TodoActions />
+      </section>
+    </React.Fragment>;
   }
 }
