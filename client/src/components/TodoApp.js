@@ -6,6 +6,7 @@ import './TodoApp.css';
 import { TodoActions } from './TodoActions'
 import { TodoList } from './TodoList'
 import { TodoAdd } from './TodoAdd'
+import Datepicker from './Datepicker'
 
 export default class TodoApp extends React.Component {
   constructor(props) {
@@ -38,11 +39,7 @@ export default class TodoApp extends React.Component {
     }
     
     this.state = {
-      todos: [
-        { id: 1, title: 'Todo 1', completed: false },
-        { id: 2, title: 'Todo 2', completed: true },
-        { id: 3, title: 'Todo 3', completed: false }
-      ],
+      todos: [],
       filter: 'all', // active, completed,
       deleted: [],
       handleFilter: this.handleFilter,
@@ -50,20 +47,37 @@ export default class TodoApp extends React.Component {
     }    
   }
 
+  componentDidMount() {
+
+    fetch('http://localhost:3000/todos')
+    .then(response => response.json())
+    .then(todos => {
+      this.setState({
+        todos
+      })
+    })
+  }
+
   render() {
+
     return  <React.Fragment>
-      <section className="todoapp">
+      
+        <h1>todos</h1> 
         <TodoContext.Provider value={this.state}>
-          <TodoAdd />
-          <TodoList />
-          <TodoActions />
+          <div className="todowrapper">
+            <section className="todoapp">
+              <TodoAdd />
+              <TodoList />
+              <TodoActions />
+            </section>
+            <Datepicker type="inline" />
+          </div>
         </TodoContext.Provider>
-      </section>
-      <section className="todoapp">
+      {/* <section className="todoapp">
         <TodoAdd />
         <TodoList />
         <TodoActions />
-      </section>
+      </section> */}
     </React.Fragment>;
   }
 }
