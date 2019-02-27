@@ -1,8 +1,7 @@
 import React from 'react'
 
 export const defaultState = {
-  todos: [
-    { id: 1, title: 'Todo from default context', completed: false }],
+  todos: [],
   filter: 'all',
   deleted: [],
   handleFilter: () => {},

@@ -44,7 +44,10 @@ export default class TodoApp extends React.Component {
       deleted: [],
       handleFilter: this.handleFilter,
       addTodo: this.addTodo
-    }    
+    }   
+    
+    this.onRenderCellDatepicker = this.onRenderCellDatepicker.bind(this);
+    this.onSelectDatepicker = this.onSelectDatepicker.bind(this);
   }
 
   componentDidMount() {
@@ -56,6 +59,27 @@ export default class TodoApp extends React.Component {
         todos
       })
     })
+  }
+
+  onRenderCellDatepicker(date, cellType) {
+
+    let currentDate = `${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear()}`;
+    let cell = {
+      html: null
+    };
+
+    this.state.todos.forEach(todo => {
+      cell = {
+        html: currentDate === todo.date ? date.getDate() + '<span class="dp-note"></span>' : cell.html
+      }
+    })
+
+    return cell
+
+  }
+
+  onSelectDatepicker(fd, date) {
+    console.log(fd, date);
   }
 
   render() {
@@ -70,7 +94,10 @@ export default class TodoApp extends React.Component {
               <TodoList />
               <TodoActions />
             </section>
-            <Datepicker type="inline" />
+            <Datepicker 
+            onRenderCell={this.onRenderCellDatepicker} 
+            onSelect={this.onSelectDatepicker} 
+            type="inline" />
           </div>
         </TodoContext.Provider>
       {/* <section className="todoapp">

@@ -12,13 +12,13 @@ export default class Datepicker extends React.Component {
 
     this.$datepicker = $(this.datepicker);
 
-    this.$datepicker.datepicker({
-      inline: true
-    });
+    let { type,  ...props } = this.props;
+
+    this.$datepicker.datepicker(props);
 
   }
 
-  render(props) {
+  render() {
     return <div className="datepicker-here" ref={el => this.datepicker = el}></div>
   }
 }

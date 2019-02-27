@@ -411,3 +411,21 @@ html .clear-completed:active {
 		bottom: 10px;
 	}
 }
+
+.dp-note {
+	width: 1em;
+	height: 1em;
+	font-size: 6px;
+	display: block;
+	margin: auto;
+	background-color: gray;
+	border-radius: 500px; 
+}
+.datepicker--cell-day {
+	display: flex;
+	flex-direction: column;
+}
+
+.datepicker--cell-day.-selected- .dp-note {
+	color: #fff;
+}
