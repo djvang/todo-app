@@ -1,6 +1,18 @@
 import React from 'react'
+import { toggleTodo } from '../actions'
 
-export function TodoItem(props) {
-    return <li className={`todo ${props.todo.completed ? 'completed' : ''}`}>
-    <div className="view"><input type="checkbox" defaultChecked={`${props.todo.completed ? true : ''}`} className="toggle" /> <label>{props.todo.title}</label> <button className="destroy"></button></div> <input type="text" className="edit" /></li>
+export function TodoItem({ todo, store }) {
+    return <li className={`todo ${todo.completed ? 'completed' : ''}`}>
+        <div className="view">
+            <input type="checkbox" 
+                defaultChecked={`${todo.completed ? true : ''}`} 
+                onChange={() => store.dispatch(toggleTodo(todo.id))} 
+                className="toggle" />
+
+            <label>{todo.title}</label> 
+            <button className="destroy"></button>
+
+        </div>
+        <input type="text" className="edit" />
+    </li>
 }
